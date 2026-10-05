@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Detente y piensa | Advertencia: Automedicación</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Roboto:wght@400;500&display=swap">
+<style>
+/* ========== 1. TOKENS (paleta de la referencia + rojo) ========== */
+:root{
+  --celeste:#9FE7F5; --azul:#429EBD; --marino:#053F5C; --ambar:#F7AD19; --rojo:#D6325C;
+  --bg:#F4F9FC; --surface:#FFFFFF; --text:#053F5C; --muted:#4A6B7C; --line:#CFE3EC;
+  --ok:var(--azul); --mid:var(--ambar); --risk:var(--rojo);
+  --f-title:'Poppins',system-ui,sans-serif; --f-body:'Roboto',system-ui,sans-serif;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#04293B; --surface:#073A55; --text:#E8F7FB; --muted:#9CC3D1; --line:#0E5272;}}
+:root[data-theme="dark"]{--bg:#04293B; --surface:#073A55; --text:#E8F7FB; --muted:#9CC3D1; --line:#0E5272;}
+
+/* ========== 2. BASE ========== */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:16px;height:auto}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--f-body);font-size:16px;line-height:1.6}
+.app{max-width:480px;margin:0 auto;background:var(--bg);min-height:100vh;padding-bottom:84px;overflow-x:hidden}
+h1,h2,h3{font-family:var(--f-title);line-height:1.2;margin:0 0 .5em}
+h2{font-size:1.5rem;font-weight:700}
+p{margin:0 0 1em}
+section{padding:44px 22px}
+a:focus-visible,button:focus-visible{outline:3px solid var(--ambar);outline-offset:3px}
+
+/* ========== 3. BOTONES ========== */
+.btn{font-family:var(--f-title);font-weight:600;font-size:1rem;border:0;border-radius:999px;padding:14px 26px;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s}
+.btn:active{transform:scale(.97)}
+.btn-light{background:#fff;color:var(--marino)}
+.btn-amber{background:var(--ambar);color:var(--marino)}
+.btn-teal{background:var(--azul);color:#fff}
+.btn-block{display:block;width:100%;text-align:center}
+
+/* ========== 4. HERO (franjas verticales como la referencia) ========== */
+.hero{position:relative;background:
+  repeating-linear-gradient(90deg,rgba(255,255,255,.07) 0 28px,transparent 28px 56px),
+  linear-gradient(170deg,var(--azul),var(--marino));
+  color:#fff;padding:56px 24px 52px;border-radius:0 0 44px 44px}
+.alerta{width:46px;display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:22px;animation:latido 1.6s ease-out 1}
+.alerta i{display:block;width:22px;height:48px;background:var(--ambar);border-radius:12px 12px 6px 6px}
+.alerta b{display:block;width:16px;height:16px;background:var(--ambar);border-radius:50%}
+@keyframes latido{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.12);opacity:1}100%{transform:scale(1)}}
+.hero h1{font-size:2.1rem;font-weight:800}
+.hero h1 em{font-style:normal;color:var(--ambar)}
+.hero p{color:#E3F6FA;max-width:34ch}
+.aviso{display:flex;gap:10px;background:rgba(255,255,255,.14);border-radius:16px;padding:14px 16px;font-size:.88rem;margin:22px 0 26px}
+.aviso svg{flex:none;width:20px;height:20px}
+
+/* ========== 5. PASOS ========== */
+.pasos{list-style:none;padding:0;margin:0;counter-reset:p}
+.pasos li{counter-increment:p;position:relative;padding:0 0 22px 56px}
+.pasos li::before{content:counter(p);position:absolute;left:0;top:0;width:40px;height:40px;border-radius:50%;background:var(--celeste);color:var(--marino);font:700 1.05rem var(--f-title);display:grid;place-items:center}
+.pasos li:not(:last-child)::after{content:"";position:absolute;left:19px;top:44px;bottom:4px;width:2px;background:var(--line)}
+.pasos strong{font-family:var(--f-title);display:block}
+.pasos span{color:var(--muted);font-size:.94rem}
+
+/* ========== 6. SEMÁFORO ========== */
+.nivel{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-left:8px solid;border-radius:16px;padding:16px;margin-bottom:12px}
+.nivel.azul{border-left-color:var(--ok)}.nivel.amarillo{border-left-color:var(--mid)}.nivel.rojo{border-left-color:var(--risk)}
+.nivel h3{font-size:1.05rem;margin:0 0 2px}.nivel p{margin:0;color:var(--muted);font-size:.93rem}
+
+/* ========== 7. EVALUACIÓN ========== */
+#evaluacion{background:var(--surface);border-radius:36px 36px 0 0}
+.barra{height:8px;border-radius:8px;background:var(--line);overflow:hidden;margin:6px 0 20px}
+.barra div{height:100%;width:0;background:var(--azul);transition:width .4s ease}
+.cont{font:500 .85rem var(--f-title);color:var(--muted)}
+.pregunta{font-family:var(--f-title);font-weight:600;font-size:1.2rem;margin-bottom:18px}
+.opcion{display:flex;align-items:center;gap:14px;width:100%;text-align:left;font:500 1rem var(--f-title);color:var(--text);background:var(--bg);border:2px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px;cursor:pointer;transition:border-color .2s,background .2s}
+.opcion .dot{flex:none;width:26px;height:26px;border-radius:50%;border:2px solid var(--azul);display:grid;place-items:center}
+.opcion.sel{border-color:var(--rojo);background:rgba(214,50,92,.08)}
+.opcion.sel .dot{background:var(--rojo);border-color:var(--rojo)}
+.opcion.sel .dot::after{content:"";width:8px;height:8px;border-radius:50%;background:#fff}
+.nav-eval{display:flex;justify-content:space-between;gap:12px;margin-top:20px}
+.btn[disabled]{opacity:.4;cursor:not-allowed}
+.link{background:none;border:0;color:var(--muted);font:500 .95rem var(--f-title);cursor:pointer;text-decoration:underline}
+
+/* ========== 8. RESULTADO ========== */
+.resultado{text-align:center;border-radius:28px;padding:30px 22px;color:#fff}
+.resultado.azul{background:var(--azul)}
+.resultado.amarillo{background:var(--ambar);color:var(--marino)}
+.resultado.rojo{background:var(--rojo)}
+.pct{font:800 4.6rem/1 var(--f-title)}
+.etq{font:700 1.15rem var(--f-title);margin:6px 0 10px}
+.consejo{background:rgba(255,255,255,.2);border-radius:16px;padding:14px;font-size:.93rem;margin-top:16px}
+.factores{list-style:none;padding:0;margin:20px 0}
+.factores li{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:8px;font-size:.95rem}
+
+/* ========== 9. RECURSOS / INFO ========== */
+.tarjeta{border-radius:22px;padding:22px;margin-bottom:14px}
+.t-azul{background:var(--marino);color:#fff}.t-azul p{color:#D5EEF5}
+.t-amb{background:var(--ambar);color:var(--marino)}
+.tarjeta h3{font-size:1.15rem}.tarjeta p:last-child{margin:0}
+footer{padding:10px 22px 30px;color:var(--muted);font-size:.82rem}
+
+/* ========== 10. BARRA INFERIOR ========== */
+.dock{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;display:flex;justify-content:space-around;background:var(--surface);border-top:1px solid var(--line);padding:10px 0 calc(10px + env(safe-area-inset-bottom,0px));z-index:10}
+.dock a{display:flex;flex-direction:column;align-items:center;gap:2px;font:500 .72rem var(--f-title);color:var(--muted);text-decoration:none;min-width:64px}
+.dock svg{width:24px;height:24px}
+.dock a.on{color:var(--rojo)}
+
+/* ========== 11. ANIMACIÓN AL HACER SCROLL ========== */
+.rev{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.rev.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.rev{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<main class="app">
+
+  <!-- ===== HERO ===== -->
+  <header class="hero" id="inicio">
+    <div class="alerta" aria-hidden="true"><i></i><b></b></div>
+    <h1>Antes de tomar un medicamento, <em>detente y piensa.</em></h1>
+    <p>Responde unas preguntas sencillas y conoce el nivel de riesgo de automedicarte.</p>
+    <div class="aviso">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+      <span>Esta herramienta no es diagnóstica ni médica. Su finalidad es promover decisiones responsables sobre el uso de medicamentos.</span>
+    </div>
+    <a href="#evaluacion" class="btn btn-light">Comenzar evaluación</a>
+  </header>
+
+  <!-- ===== CÓMO FUNCIONA ===== -->
+  <section>
+    <h2 class="rev">Tres pasos, dos minutos</h2>
+    <ol class="pasos">
+      <li class="rev"><strong>Responde</strong><span>Preguntas simples sobre el medicamento que piensas tomar.</span></li>
+      <li class="rev"><strong>Mira tu nivel de riesgo</strong><span>Recibes un porcentaje y los factores que lo aumentan.</span></li>
+      <li class="rev"><strong>Decide con más información</strong><span>Si hay dudas, consulta a un profesional de salud.</span></li>
+    </ol>
+  </section>
+
+  <!-- ===== SEMÁFORO ===== -->
+  <section style="padding-top:0">
+    <h2 class="rev">Qué significa cada color</h2>
+    <div class="nivel azul rev"><div><h3>Azul: está bien</h3><p>Riesgo bajo. Tomaste una decisión informada.</p></div></div>
+    <div class="nivel amarillo rev"><div><h3>Amarillo: no tan recomendado</h3><p>Riesgo medio. Conviene aclarar dudas antes de tomarlo.</p></div></div>
+    <div class="nivel rojo rev"><div><h3>Rojo: riesgoso</h3><p>Riesgo alto. Consulta a un profesional antes de tomarlo.</p></div></div>
+  </section>
+
+  <!-- ===== EVALUACIÓN INTERACTIVA ===== -->
+  <section id="evaluacion">
+    <h2>Evaluación</h2>
+    <div id="eval"></div>
+  </section>
+
+  <!-- ===== RECURSOS ===== -->
+  <section id="recursos">
+    <div class="tarjeta t-azul rev">
+      <h3>Recursos y ayuda inmediata</h3>
+      <p>Si ya tomaste algo y te sientes mal (mareo, dificultad para respirar, vómitos, reacción en la piel), busca atención médica de inmediato o llama al número de emergencias de tu país.</p>
+    </div>
+    <div class="tarjeta t-amb rev" id="info">
+      <h3>Información y aprendizaje</h3>
+      <p>Lee siempre el prospecto. Revisa la fecha de vencimiento. Un medicamento que le sirvió a otra persona puede hacerte daño a ti.</p>
+      <p>Pregunta a tu médico o farmacéutico por interacciones con otros medicamentos.</p>
+    </div>
+  </section>
+
+  <footer>Proyecto académico de concientización. No reemplaza la consulta médica ni constituye un diagnóstico.</footer>
+</main>
+
+<!-- ===== BARRA INFERIOR ===== -->
+<nav class="dock" aria-label="Navegación">
+  <a href="#evaluacion"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Evaluar</a>
+  <a href="#inicio" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 11 12 3l9 8v10h-6v-6H9v6H3z"/></svg>Inicio</a>
+  <a href="#recursos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.7M12 17h.01"/></svg>Ayuda</a>
+</nav>
+
+<script>
+/* ========== PREGUNTAS: cada opción suma puntos de riesgo ========== */
+const PREGUNTAS = [
+  {t:'¿El medicamento que deseas tomar fue recomendado por un profesional de salud?', f:'No fue recomendado por un profesional de salud.',
+   o:[['Sí, fue recomendado por un profesional',0],['No, lo decidí por mi cuenta',3]]},
+  {t:'¿Conoces para qué sirve y cómo se usa este medicamento?', f:'No conoces bien para qué sirve o cómo se usa.',
+   o:[['Sí, lo conozco bien',0],['Más o menos',2],['No lo conozco',3]]},
+  {t:'¿Estás tomando actualmente otros medicamentos?', f:'Estás tomando otros medicamentos.',
+   o:[['No tomo ninguno',0],['Sí, uno o dos',2],['Sí, varios',3]]},
+  {t:'¿Conoces la dosis adecuada y cada cuánto tomarla?', f:'Desconoces la dosis adecuada.',
+   o:[['Sí, la leí o me la indicaron',0],['No estoy seguro/a',2],['No la conozco',3]]},
+  {t:'¿Tienes alergias o una enfermedad crónica?', f:'Tienes alergias o una enfermedad crónica.',
+   o:[['No',0],['No estoy seguro/a',2],['Sí',3]]},
+  {t:'¿Revisaste la fecha de vencimiento y el empaque?', f:'No revisaste vencimiento ni empaque.',
+   o:[['Sí, está en buen estado',0],['No lo revisé',2]]}
+];
+const MAX = PREGUNTAS.reduce((s,p)=>s+Math.max(...p.o.map(x=>x[1])),0);
+const NIVELES = {
+  azul:{etq:'Resultado bajo',txt:'Tu decisión parece informada. Aun así, lee el prospecto y respeta la dosis.'},
+  amarillo:{etq:'Resultado medio',txt:'Hay dudas por aclarar. Consulta a un farmacéutico o médico antes de tomarlo.'},
+  rojo:{etq:'Resultado alto',txt:'Lo más seguro es consultar a un profesional de salud antes de tomar cualquier medicamento.'}
+};
+let paso = 0, resp = [];
+const el = document.getElementById('eval');
+
+/* ========== RENDER DE UNA PREGUNTA ========== */
+function mostrarPregunta(){
+  const p = PREGUNTAS[paso], total = PREGUNTAS.length;
+  el.innerHTML = `
+    <div class="cont">Pregunta ${paso+1} de ${total}</div>
+    <div class="barra" role="progressbar" aria-valuemin="0" aria-valuemax="${total}" aria-valuenow="${paso+1}"><div style="width:${(paso+1)/total*100}%"></div></div>
+    <p class="pregunta">${p.t}</p>
+    <div role="radiogroup">${p.o.map((o,i)=>`<button class="opcion${resp[paso]===i?' sel':''}" role="radio" aria-checked="${resp[paso]===i}" data-i="${i}"><span class="dot"></span>${o[0]}</button>`).join('')}</div>
+    <div class="nav-eval">
+      <button class="link" id="atras" ${paso===0?'hidden':''}>Atrás</button>
+      <button class="btn btn-teal" id="sig" ${resp[paso]===undefined?'disabled':''}>${paso===total-1?'Ver resultado':'Siguiente'}</button>
+    </div>`;
+  el.querySelectorAll('.opcion').forEach(b=>b.onclick=()=>{resp[paso]=+b.dataset.i;mostrarPregunta();});
+  document.getElementById('atras').onclick=()=>{paso--;mostrarPregunta();};
+  document.getElementById('sig').onclick=()=>{paso<total-1?(paso++,mostrarPregunta()):mostrarResultado();};
+}
+
+/* ========== CÁLCULO Y RESULTADO ========== */
+function mostrarResultado(){
+  let suma = 0, factores = [];
+  PREGUNTAS.forEach((p,i)=>{const v=p.o[resp[i]][1]; suma+=v; if(v>0) factores.push(p.f);});
+  const pct = Math.round(suma/MAX*100);
+  const nivel = pct>=67 ? 'rojo' : pct>=34 ? 'amarillo' : 'azul';
+  el.innerHTML = `
+    <div class="resultado ${nivel}" aria-live="polite">
+      <div>Tu nivel de riesgo de automedicación</div>
+      <div class="pct">${pct}%</div>
+      <div class="etq">${NIVELES[nivel].etq}</div>
+      <div class="consejo">${NIVELES[nivel].txt}</div>
+    </div>
+    <h3 style="margin-top:24px">Factores que influyeron</h3>
+    ${factores.length ? `<ul class="factores">${factores.map(f=>`<li>${f}</li>`).join('')}</ul>` : '<p>No se detectaron factores de riesgo en tus respuestas.</p>'}
+    <button class="btn btn-teal btn-block" id="otra">Evaluar otro medicamento</button>`;
+  document.getElementById('otra').onclick=()=>{paso=0;resp=[];mostrarPregunta();};
+  el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+mostrarPregunta();
+
+/* ========== REVELADO SUAVE AL HACER SCROLL ========== */
+const io = new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.15});
+document.querySelectorAll('.rev').forEach(n=>io.observe(n));
+
+/* ========== ÍTEM ACTIVO EN LA BARRA INFERIOR ========== */
+const links=[...document.querySelectorAll('.dock a')];
+const secs=['inicio','evaluacion','recursos'].map(id=>document.getElementById(id));
+const io2=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.toggle('on',l.getAttribute('href')==='#'+e.target.id));}}),{threshold:.4});
+secs.forEach(s=>io2.observe(s));
+</script>
+</body>
+</html>
